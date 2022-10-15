@@ -3,7 +3,7 @@
 #attempt to write a script to create prefilled class definition files
 
 
-cat << EOF > c:/xampp/htdocs/compint/$1/$2.php
+cat << EOF >> c:/xampp/htdocs/compint/$1/$2.php
 <?php
 
 namespace $1;
