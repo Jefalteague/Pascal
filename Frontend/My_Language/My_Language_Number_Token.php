@@ -99,19 +99,16 @@ class My_Language_Number_Token extends My_Language_Token {
 
             }
 
+        } else if($this->type == My_Language_Token_Type::REAL) {
+
+            $float_value =  $this->compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign);
+
+            if($this->type != My_Language_Token_Type::ERROR) {
+
+                $this->value = $float_value;
+
+            }
         }
-
-        if($this->type == My_Language_Token_Type::REAL) {
-
-            $real_value =  $this->compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign);
-
-            var_dump($real_value);die;
-
-        }
-
-
-        return $text_buffer;
-
     }
 
     public function unsigned_integer_digits(&$text_buffer) {
@@ -146,7 +143,7 @@ class My_Language_Number_Token extends My_Language_Token {
 
     }
 
-    public function compute_integer_value($whole_number_part) {
+    public function compute_integer_value($whole_number_part):int {
 
         if($whole_number_part == null) {
 
@@ -182,13 +179,54 @@ class My_Language_Number_Token extends My_Language_Token {
 
     }
 
-    public function compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign) {
+    public function compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign):float {
 
         $float_value = 0.0;
 
         $exponent_value = $this->compute_integer_value($exponent_part);
 
-        var_dump($exponent_part); die;
+        $digits = $whole_number_part;
+
+        if($exponent_sign == '-') {
+
+            $exponent_value = -$exponent_value;
+
+            //var_dump($exponent_value); die;
+
+        }
+
+        if($fraction_part != NULL) {
+            //var_dump(strlen($fraction_part)); die;
+            $exponent_value -= strlen($fraction_part);
+            //var_dump($exponent_value); die;
+
+        }
+
+        if(abs($exponent_value + strlen($whole_number_part)) > PHP_INT_SIZE) {
+
+            $this->type = My_Language_Token_Type::ERROR;
+
+            $this->value = My_Language_Error_Code::RANGE_REAL;
+
+            return (float)0.0;
+
+        }
+
+        $index = 0;
+
+        while($index < strlen($digits)) {
+
+            $float_value = 10*$float_value + $digits[$index++];
+
+        }
+
+        if($exponent_value != 0) {
+
+            $float_value *= pow(10, $exponent_value);
+
+        }
+
+        return (float)$float_value;
 
     }
 
