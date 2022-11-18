@@ -16,6 +16,8 @@ use Frontend\My_Language\My_Language_Token_Type as My_Language_Token_Type;
 
 use Frontend\My_Language\My_Language_Special_Symbol_Token as My_Language_Special_Symbol_Token;
 
+use Frontend\My_Language\My_Language_Number_Token;
+
 class My_Language_Scanner extends Scanner {
 
 	/*Properties
@@ -42,14 +44,6 @@ class My_Language_Scanner extends Scanner {
 
 		$current_char = $this->current_char(); // this should return the same char as created by skip_white_space() see p.21 of Mak
 
-	//	var_dump($current_char);
-		//die;
-
-
-		
-
-		//echo '</br>';
-
 		$token = null;
 
 		if($current_char == 'EOF') {
@@ -59,6 +53,14 @@ class My_Language_Scanner extends Scanner {
 		} else if(ctype_alpha($current_char)) {
 			
 			$token = new My_Language_Word_Token($this->source);
+			
+		} else if(ctype_digit($current_char)) {
+
+			$token = new My_Language_Number_Token($this->source);
+		
+		} else if($current_char == '\'') {
+
+			$token = new My_Language_String_Token($this->source);
 			
 		} else if(My_Language_Token_Type::tryFrom($current_char)) {
 

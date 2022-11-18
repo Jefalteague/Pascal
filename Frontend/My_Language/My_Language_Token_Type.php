@@ -75,7 +75,12 @@ enum My_Language_Token_Type: string implements Token_Type {
 	case DOT_DOT = '..';
 
 	// Other
-
+	
+	case IDENTIFIER = 'IDENTIFIER';
+	case INTEGER = 'INTEGER';
+	case REAL = 'REAL';
+	case STRING = 'STRING';
+	case ERROR = 'ERROR';
 	case END_OF_FILE = 'EOF';
 
 	/*Methods
@@ -83,6 +88,16 @@ enum My_Language_Token_Type: string implements Token_Type {
 	**
 	**
 	*/
+
+	public function other_words() {
+
+		return match($this) {
+
+			My_Language_Token_Type::IDENTIFIER => 'IDENTIFIER',
+
+		};
+
+	}
 
 	public function reserved_words() {
 

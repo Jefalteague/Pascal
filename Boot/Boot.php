@@ -28,7 +28,7 @@ class Boot {
 	 *
 	 * @return void
 	 */
-	public function boot () {
+	public static function boot () {
 
 		require_once('Autoload/Autoload.php');
 
@@ -36,7 +36,9 @@ class Boot {
 
 		$dirs = $config['dirs']['dirs'];
 
-		return Autoload::init($dirs);
+		Autoload::init($dirs);
+
+		return $config;
 
 	}
 

@@ -104,7 +104,7 @@ class My_Language_Special_Symbol_Token extends My_Language_Token {
 
 		if($enum != NULL && $enum->special_symbols()) {
 
-			$this->type = My_Language_Token_Type::tryFrom($this->text);
+			$this->type = $enum;
 
 		}
 

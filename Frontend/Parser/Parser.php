@@ -5,6 +5,7 @@ namespace Frontend\Parser;
 use Intermediate\AST as AST;
 use Intermediate\Sym_Tab as Sym_Tab;
 use Frontend\Scanner\Scanner as Scanner;
+use Intermediate\Symbol_Table\Symbol_Table_Factory as Symbol_Table_Factory;
 use Message\Message_Handler as Message_Handler;
 use Message\Message_Producer as Message_Producer;
 use Message\Message_Listener as Message_Listener;
@@ -19,8 +20,9 @@ class Parser implements Message_Producer {
 	*/
 
 	public $scanner;
+	public $config;
 	public $ast;
-	public $sym_tab;//there will be only one symbol table, must be set as single...how?
+	public $symbol_table_stack; // there will be only one symbol table, must be set as single.
 	public $message_handler; // the container for the message listeners
 
 	/*Methods
@@ -29,11 +31,15 @@ class Parser implements Message_Producer {
 	**
 	*/
 
-	public function __construct(Scanner $scanner) {
+	public function __construct(Scanner $scanner, $config) {
 
 		$this->scanner = $scanner;
 
+		$this->config = $config;
+
 		$this->ast = null;
+
+		$this->symbol_table_stack = Symbol_Table_Factory::create_stack();
 
 		$this->message_handler = Message_Handler::get_instance();
 

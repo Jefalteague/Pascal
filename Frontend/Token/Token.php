@@ -70,7 +70,11 @@ class Token {
 
 	public function get_value() {
 
-		return $this->value;
+		if($this->value != NULL) {
+
+			return $this->value;
+			
+		}
 
 	}
 

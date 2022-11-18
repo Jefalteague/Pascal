@@ -16,7 +16,7 @@ abstract class Source {
 
 	public int $current_line_number;
 
-	public string|FALSE $current_line;
+	public string $current_line;
 
 	public int $current_char_position;
 
@@ -38,7 +38,7 @@ abstract class Source {
 
 	abstract public function next_char();
 
-	abstract public function peek();
+	abstract public function peek_char();
 
 	abstract public function get_program();
 

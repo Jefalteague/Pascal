@@ -3,8 +3,9 @@
 namespace Frontend\Source;
 
 use Frontend\Source\Source as Source;
+use Frontend\My_Language\My_Language_Token_Type as My_Language_Token_Type;
 
-class FileSource extends Source {
+class File_Source extends Source {
 
 	/*Properties
 	**
@@ -99,15 +100,27 @@ class FileSource extends Source {
 
 	}
 
-	public function peek():string {
+	public function peek_char():string {
 
-		$current_pos = $this->current_char_position;
+		$this->current_char();
 
-		$peek_pos = ++$current_pos;
+		if($this->current_line == FALSE) {
 
-		$peek = $this->current_line[$peek_pos];
+			return '0';
 
-		return $peek;
+		}
+
+		$next_pos = $this->current_char_position + 1;
+
+		if($next_pos < strlen($this->current_line)) {
+
+			return $this->current_line[$next_pos];
+
+		} else {
+
+			return '\n';
+
+		}
 
 	}
 

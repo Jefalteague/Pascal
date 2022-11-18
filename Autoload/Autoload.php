@@ -71,6 +71,8 @@ class Autoload {
 
 			self::$singleton ++;
 
+			return TRUE;
+
 		}
 
 	}

@@ -35,33 +35,16 @@ class My_Language_Word_Token extends My_Language_Token {
 		}
 
 		$this->text = $text;
-/*
-		$enum = My_Language_Token_Type::tryFrom($text);
-
-		if(($enum != NULL) && ($enum->reserved_words())) {
-
-			$type = $enum->name;
-
-			$this->type = $type;
-
-		} else {
-
-			$this->type = 'IDENTIFIER';
-
-		}
-*/
 
 		$enum = My_Language_Token_Type::tryFrom($text);
 
 		if(($enum != NULL) && ($enum->reserved_words())) {
 
-		//	$type = $enum->name;
-
-			$this->type = My_Language_Token_Type::tryFrom($text);
+			$this->type = $enum;
 
 		} else {
 
-			$this->type = 'IDENTIFIER';
+			$this->type = My_Language_Token_Type::tryFrom('IDENTIFIER');
 
 		}
 

@@ -46,6 +46,15 @@ class Parser_Listener implements Message_Listener{
 
 			echo '<br />';
 
+			if($token->get_value() != NULL) {
+
+				echo '<i>Value: </i>' . $token->get_value();
+
+				echo '<br />';
+
+
+			}
+
 			echo '<i>Token Type: </i>' . $token->get_type();
 
 			echo '<br />';

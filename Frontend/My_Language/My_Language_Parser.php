@@ -24,13 +24,13 @@ class My_Language_Parser extends Parser {
 	**
 	*/
 
-	public function __construct(Scanner $scanner) {
+	public function __construct(Scanner $scanner, $config) {
 
-		parent::__construct($scanner);
+		parent::__construct($scanner, $config);
 
 	}
 
-	public function parse() {
+	public function parse():void {
 
 		$token_class = NULL;
 
@@ -45,24 +45,6 @@ class My_Language_Parser extends Parser {
 			array_push($message_array, $token);
 
 			$token_class = get_class($token);
-			
-			/*
-			var_dump($token);
-		
-			echo "</br>";
-
-			echo "</br>";
-
-
-
-			//var_dump($token_class);
-
-			//echo "</br>";
-
-			//echo "</br>";
-
-			//die;
-			*/
 
 		}
 
@@ -70,11 +52,15 @@ class My_Language_Parser extends Parser {
 
 		$elapsed_time = $end_time - $start_time;
 
-		$type = Message_Type::PARSER_SUMMARY;
+		if($this->config['messaging'] == TRUE) {
 
-		$message = new Message($type, $message_array, $elapsed_time);
+			$type = Message_Type::PARSER_SUMMARY;
 
-		$this->send_message($message);
+			$message = new Message($type, $message_array, $elapsed_time);
+	
+			$this->send_message($message);
+
+		}
 
 	}
 
