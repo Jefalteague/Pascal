@@ -184,8 +184,11 @@ class My_Language_Number_Token extends My_Language_Token {
 
     public function compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign) {
 
-        return $whole_number_part;
+        $float_value = 0.0;
 
+        $exponent_value = $this->compute_integer_value($exponent_part);
+
+        var_dump($exponent_part); die;
 
     }
 
