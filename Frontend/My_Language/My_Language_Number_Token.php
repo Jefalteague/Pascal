@@ -20,10 +20,15 @@ class My_Language_Number_Token extends My_Language_Token {
     public function extract_number(&$text_buffer) {
 
         $whole_number_part = NULL;
+
         $fraction_part = NULL;
+
         $exponent_part = NULL;
+
         $dot_dot = FALSE;
+
         $exponent_sign = '+';
+        
         $current_char;
 
         $this->type = MLTT::INTEGER;
