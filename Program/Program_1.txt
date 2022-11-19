@@ -1,1 +1,15 @@
-avalue := 100.00e-2
+PROGRAM
+
+{this is a comment
+
+that do continue across
+
+several
+
+lines
+
+:= 56}
+
+a := 56.6700e4
+
+b := 45.3400000000e10

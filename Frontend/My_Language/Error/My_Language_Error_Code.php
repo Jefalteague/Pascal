@@ -21,6 +21,7 @@ enum My_Language_Error_Code:string {
     case UNEXPECTED_EOF = 'UNEXPECTED_EOF';
 	case INVALID_NUMBER = 'INVALID_NUMBER';
 	case RANGE_INTEGER	= 'RANGE_INTEGER';
+	case RANGE_REAL	= 'RANGE_REAL';
 
     
 

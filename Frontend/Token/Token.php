@@ -46,6 +46,8 @@ class Token {
 
 	}
 
+	// getters for the class properties
+
 	public function get_source() {
 
 		return $this->source;
@@ -90,6 +92,14 @@ class Token {
 
 	}
 
+	public function get_current_line_number() {
+
+		return $this->current_line_number;
+
+	}
+
+	// the main/default extract method, overridden by specific tokens
+
 	public function extract() {
 
 		$this->text = $this->current_char();
@@ -99,6 +109,8 @@ class Token {
 		$this->next_char();
 
 	}
+
+	// the source convenience methods (for accessing source methods, which access the scanner methods)
 
 	public function current_char() {
 
@@ -115,12 +127,6 @@ class Token {
 	public function peek_char() {
 
 		return $this->source->peek_char();
-
-	}
-
-	public function get_current_line_number() {
-
-		return $this->current_line_number;
 
 	}
 

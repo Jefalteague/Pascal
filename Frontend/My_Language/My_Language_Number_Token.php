@@ -2,9 +2,8 @@
 
 namespace Frontend\My_Language;
 
-use Frontend\My_Language\My_Language_Token as My_Language_Token;
-use Frontend\My_Language\Error\My_Language_Error_Code;
-use Frontend\My_Language\My_Language_Token_Type as My_Language_Token_Type;
+use Frontend\My_Language\Error\My_Language_Error_Code as MLEC;
+use Frontend\My_Language\My_Language_Token_Type as MLTT;
 
 class My_Language_Number_Token extends My_Language_Token {
 
@@ -14,7 +13,7 @@ class My_Language_Number_Token extends My_Language_Token {
 
         $number = $this->extract_number($text_buffer);
 
-        $this->text = $number;
+        $this->text = $text_buffer;
 
     }
 
@@ -27,11 +26,11 @@ class My_Language_Number_Token extends My_Language_Token {
         $exponent_sign = '+';
         $current_char;
 
-        $this->type =  My_Language_Token_Type::INTEGER;
+        $this->type = MLTT::INTEGER;
 
         $whole_number_part = $this->unsigned_integer_digits($text_buffer);
 
-        if($this->type == My_Language_Token_Type::ERROR) {
+        if($this->type == MLTT::ERROR) {
 
             return;
 
@@ -47,7 +46,7 @@ class My_Language_Number_Token extends My_Language_Token {
 
             } else {
 
-                $this->type = My_Language_Token_Type::REAL;
+                $this->type = MLTT::REAL;
 
                 $text_buffer = $text_buffer . $current_char;
 
@@ -55,7 +54,7 @@ class My_Language_Number_Token extends My_Language_Token {
 
                 $fraction_part = $this->unsigned_integer_digits($text_buffer);
 
-                if($this->type == My_Language_Token_Type::ERROR ) {
+                if($this->type == MLTT::ERROR ) {
 
                     return;
 
@@ -69,7 +68,7 @@ class My_Language_Number_Token extends My_Language_Token {
 
         if($dot_dot == FALSE && (($current_char == 'e') || ($current_char == 'E'))) {
 
-            $this->type = My_Language_Token_Type::REAL;
+            $this->type = MLTT::REAL;
 
             $text_buffer = $text_buffer . $current_char;
 
@@ -89,21 +88,21 @@ class My_Language_Number_Token extends My_Language_Token {
 
         }
 
-        if($this->type ==  My_Language_Token_Type::INTEGER) {
+        if($this->type ==  MLTT::INTEGER) {
 
             $integer_value = $this->compute_integer_value($whole_number_part);
 
-            if($this->type != My_Language_Token_Type::ERROR) {
+            if($this->type != MLTT::ERROR) {
 
                 $this->value = $integer_value;
 
             }
 
-        } else if($this->type == My_Language_Token_Type::REAL) {
+        } else if($this->type == MLTT::REAL) {
 
             $float_value =  $this->compute_float_value($whole_number_part, $fraction_part, $exponent_part, $exponent_sign);
 
-            if($this->type != My_Language_Token_Type::ERROR) {
+            if($this->type != MLTT::ERROR) {
 
                 $this->value = $float_value;
 
@@ -119,9 +118,9 @@ class My_Language_Number_Token extends My_Language_Token {
 
             $text_buffer = $text_buffer . $current_char;
 
-            $this->type = My_Language_Token_Type::ERROR;
+            $this->type = MLTT::ERROR;
 
-            $this->value = My_Language_Error_Code::tryFrom('INVALID_NUMBER')->name;
+            $this->value = MLEC::tryFrom('INVALID_NUMBER')->name;
 
             return NULL;
 
@@ -152,7 +151,9 @@ class My_Language_Number_Token extends My_Language_Token {
         }
 
         $integer_value = 0;
+
         $previous_value = -1;
+        
         $index = 0;
 
         while(($index < strlen($whole_number_part)) && ($integer_value >= $previous_value)) {
@@ -169,9 +170,9 @@ class My_Language_Number_Token extends My_Language_Token {
 
         } else {
 
-            $this->type = My_Language_Token_Type::ERROR;
+            $this->type = MLTT::ERROR;
 
-            $this->value =  My_Language_Error_Code::RANGE_INTEGER;
+            $this->value =  MLEC::RANGE_INTEGER;
 
             return 0;
 
@@ -189,24 +190,23 @@ class My_Language_Number_Token extends My_Language_Token {
 
         if($exponent_sign == '-') {
 
-            $exponent_value = -$exponent_value;
-
-            //var_dump($exponent_value); die;
+            $exponent_value = -($exponent_value);
 
         }
 
         if($fraction_part != NULL) {
-            //var_dump(strlen($fraction_part)); die;
+
             $exponent_value -= strlen($fraction_part);
-            //var_dump($exponent_value); die;
+ 
+            $digits = $digits . $fraction_part;
 
         }
 
         if(abs($exponent_value + strlen($whole_number_part)) > PHP_INT_SIZE) {
 
-            $this->type = My_Language_Token_Type::ERROR;
+            $this->type = MLTT::ERROR;
 
-            $this->value = My_Language_Error_Code::RANGE_REAL;
+            $this->value = MLEC::RANGE_REAL->name;
 
             return (float)0.0;
 
